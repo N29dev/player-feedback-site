@@ -9,8 +9,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #07080d;
-      --panel: rgba(17, 20, 31, 0.84);
+      --panel: rgba(17, 20, 31, 0.88);
       --panel-2: rgba(255, 255, 255, 0.06);
       --text: #f4f7ff;
       --muted: #aab3ca;
@@ -101,7 +100,7 @@
 
     .hero {
       display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
+      grid-template-columns: 1.08fr 0.92fr;
       gap: 24px;
       align-items: stretch;
       margin-bottom: 24px;
@@ -152,7 +151,7 @@
       border: 1px solid var(--line);
       padding: 8px;
       border-radius: 18px;
-      max-width: 620px;
+      max-width: 640px;
     }
 
     .search-box input {
@@ -227,35 +226,60 @@
 
     .grid {
       display: grid;
-      grid-template-columns: 0.85fr 1.15fr;
+      grid-template-columns: 0.86fr 1.14fr;
       gap: 24px;
     }
 
     .panel { padding: 24px; }
 
+    .profile-card {
+      position: sticky;
+      top: 20px;
+    }
+
     .profile-header {
-      display: flex;
-      gap: 16px;
+      display: grid;
+      grid-template-columns: 108px 1fr;
+      gap: 18px;
       align-items: center;
       margin-bottom: 22px;
     }
 
     .avatar {
-      width: 82px;
-      height: 82px;
-      border-radius: 24px;
+      width: 108px;
+      height: 108px;
+      border-radius: 28px;
       background:
-        linear-gradient(135deg, rgba(77,163,255,.75), rgba(54,240,255,.22)),
-        url("https://tr.rbxcdn.com/30DAY-AvatarHeadshot-6D511CFCCB39A5D826D7C9170812AD64-Png/150/150/AvatarHeadshot/Webp/noFilter");
-      background-size: cover;
+        linear-gradient(135deg, rgba(77,163,255,.75), rgba(54,240,255,.22));
       border: 1px solid rgba(255,255,255,0.28);
       box-shadow: 0 0 38px rgba(77,163,255,0.28);
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      color: var(--cyan);
+      font-weight: 900;
+      font-size: 30px;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
     }
 
     .profile-header h2 {
-      font-size: 26px;
-      letter-spacing: -0.03em;
-      margin-bottom: 5px;
+      font-size: 30px;
+      letter-spacing: -0.04em;
+      margin-bottom: 4px;
+      word-break: break-word;
+    }
+
+    .profile-sub {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 10px;
+      word-break: break-word;
     }
 
     .tag {
@@ -294,7 +318,7 @@
       margin-bottom: 8px;
     }
 
-    .mini-stat strong { font-size: 28px; }
+    .mini-stat strong { font-size: 30px; }
 
     .rank {
       color: var(--gold);
@@ -352,7 +376,10 @@
       height: 330px;
     }
 
-    .ego-type { display: grid; gap: 12px; }
+    .info-grid {
+      display: grid;
+      gap: 12px;
+    }
 
     .type-card {
       padding: 16px;
@@ -367,10 +394,36 @@
       color: var(--text);
     }
 
-    .type-card span {
+    .type-card span, .type-card a {
       color: var(--muted);
       font-size: 13px;
       line-height: 1.45;
+    }
+
+    .type-card a { color: #cfe6ff; text-decoration: underline; }
+
+    .rank-guide {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .rank-guide div {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.045);
+      padding: 10px;
+      border-radius: 14px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .rank-guide strong {
+      display: block;
+      color: var(--text);
+      font-size: 18px;
+      margin-bottom: 2px;
     }
 
     .forms {
@@ -441,6 +494,7 @@
       color: var(--muted);
       font-size: 12px;
       margin-bottom: 8px;
+      flex-wrap: wrap;
     }
 
     .feedback-card p {
@@ -461,7 +515,7 @@
     }
 
     .warning, .status-box {
-      margin-top: 24px;
+      margin-top: 18px;
       padding: 14px 16px;
       color: #ffe7ad;
       background: rgba(255, 207, 90, 0.08);
@@ -485,10 +539,12 @@
 
     @media (max-width: 880px) {
       .hero, .grid, .scan-layout, .forms { grid-template-columns: 1fr; }
+      .profile-card { position: static; }
       .reference-card { min-height: 320px; }
       .nav { display: none; }
       .search-box { flex-direction: column; }
       .btn { width: 100%; }
+      .rank-guide { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -501,28 +557,28 @@
       </a>
 
       <nav class="nav">
-        <span>Player Scan</span>
-        <span>Feedback</span>
-        <span>Related Accounts</span>
+        <span>Roblox Avatar</span>
+        <span>Rank System</span>
+        <span>Feedback Database</span>
       </nav>
     </header>
 
     <section class="hero">
       <div class="hero-card">
         <div class="kicker">BLR community scouting system</div>
-        <h1>Rate players by real match experience.</h1>
+        <h1>Search. Rate. Scout.</h1>
         <p>
-          Search a Roblox username, write feedback, rate their playstyle, and link possible related accounts.
-          This version can save data to Supabase after you add your project URL and anon key.
+          Enter a Roblox username. The site loads the player avatar, calculates rank from average stats,
+          and saves feedback to Supabase.
         </p>
 
         <form class="search-box" id="searchForm">
           <input id="playerSearch" placeholder="Enter Roblox username, for example: N29dev" autocomplete="off" />
-          <button class="btn" type="submit">Scan Player</button>
+          <button class="btn" type="submit">Load Player</button>
         </form>
 
         <div id="statusBox" class="status-box">
-          Supabase is not connected yet. Open index.html and replace SUPABASE_URL and SUPABASE_ANON_KEY.
+          Ready. Search a Roblox player.
         </div>
       </div>
 
@@ -530,36 +586,55 @@
         <img src="assets/ego-analysis.png" alt="Ego analysis reference image" />
         <div class="reference-overlay">
           <strong>Visual reference</strong>
-          <span>Use this manga-style analysis image as inspiration for the profile scan layout.</span>
+          <span>Cleaner player card + radar chart, inspired by the analysis image.</span>
         </div>
       </aside>
     </section>
 
     <section class="grid">
-      <aside class="panel">
+      <aside class="panel profile-card">
         <div class="profile-header">
-          <div class="avatar"></div>
+          <div class="avatar">
+            <span id="avatarFallback">?</span>
+            <img id="playerAvatar" alt="Roblox avatar" />
+          </div>
+
           <div>
-            <h2 id="profileName">N29dev</h2>
-            <span class="tag">GK / Prediction Type</span>
+            <h2 id="profileName">Search player</h2>
+            <div class="profile-sub" id="profileSub">Roblox profile will appear here</div>
+            <span class="tag" id="profileTag">No player loaded</span>
           </div>
         </div>
 
         <div class="rank-box">
           <div class="mini-stat">
-            <span>Total Rank</span>
-            <strong class="rank" id="rankText">A</strong>
+            <span>Overall Rank</span>
+            <strong class="rank" id="rankText">C</strong>
           </div>
+          <div class="mini-stat">
+            <span>Overall Score</span>
+            <strong id="scoreText">0</strong>
+          </div>
+        </div>
+
+        <div class="rank-box">
           <div class="mini-stat">
             <span>Feedbacks</span>
             <strong id="feedbackCount">0</strong>
+          </div>
+          <div class="mini-stat">
+            <span>Best Stat</span>
+            <strong id="bestStatText">—</strong>
           </div>
         </div>
 
         <div class="stats-list" id="statsList"></div>
 
-        <div class="warning">
-          Related accounts are only suggestions. Never show them as 100% true unless verified by the player or moderator.
+        <div class="rank-guide">
+          <div><strong>S</strong>90+</div>
+          <div><strong>A</strong>80–89</div>
+          <div><strong>B</strong>70–79</div>
+          <div><strong>C</strong>0–69</div>
         </div>
       </aside>
 
@@ -569,18 +644,22 @@
             <canvas id="radar" width="330" height="330"></canvas>
           </div>
 
-          <div class="ego-type">
+          <div class="info-grid">
             <div class="type-card">
-              <strong>Ego Type</strong>
-              <span id="egoType">Wholistic + Freedom</span>
+              <strong>Rank logic</strong>
+              <span id="rankExplain">Rank is based on average of GK, Offense, Defense, Pass, Speed, and Teamwork.</span>
             </div>
             <div class="type-card">
-              <strong>Known For</strong>
-              <span id="knownFor">Prediction, quick saves, risky positioning, long passes.</span>
+              <strong>Roblox User ID</strong>
+              <span id="robloxId">Not loaded</span>
             </div>
             <div class="type-card">
-              <strong>Trust Level</strong>
-              <span>Later, Discord/Roblox login can make verified feedback more trusted.</span>
+              <strong>Profile Link</strong>
+              <a id="profileLink" href="#" target="_blank" rel="noopener">Search a player first</a>
+            </div>
+            <div class="type-card">
+              <strong>Note</strong>
+              <span>Related accounts are suggestions only. Keep them unconfirmed unless the player/mod confirms.</span>
             </div>
           </div>
         </div>
@@ -592,6 +671,9 @@
         <h2 style="margin-bottom: 18px;">Give Feedback</h2>
 
         <form id="feedbackForm">
+          <label>Reviewer name</label>
+          <input id="reviewerName" placeholder="Example: N29dev" />
+
           <label>Your role</label>
           <select id="reviewerRole">
             <option>Teammate</option>
@@ -604,41 +686,12 @@
           <label>Feedback</label>
           <textarea id="feedbackText" placeholder="Example: Strong GK, reads shots well, but sometimes pushes too far."></textarea>
 
-          <div class="slider-row">
-            <span>GK</span>
-            <input type="range" min="0" max="100" value="88" data-stat="GK" />
-            <strong>88</strong>
-          </div>
-
-          <div class="slider-row">
-            <span>Offense</span>
-            <input type="range" min="0" max="100" value="62" data-stat="Offense" />
-            <strong>62</strong>
-          </div>
-
-          <div class="slider-row">
-            <span>Defense</span>
-            <input type="range" min="0" max="100" value="79" data-stat="Defense" />
-            <strong>79</strong>
-          </div>
-
-          <div class="slider-row">
-            <span>Pass</span>
-            <input type="range" min="0" max="100" value="74" data-stat="Pass" />
-            <strong>74</strong>
-          </div>
-
-          <div class="slider-row">
-            <span>Speed</span>
-            <input type="range" min="0" max="100" value="70" data-stat="Speed" />
-            <strong>70</strong>
-          </div>
-
-          <div class="slider-row">
-            <span>Teamwork</span>
-            <input type="range" min="0" max="100" value="76" data-stat="Teamwork" />
-            <strong>76</strong>
-          </div>
+          <div class="slider-row"><span>GK</span><input type="range" min="0" max="100" value="70" data-stat="GK" /><strong>70</strong></div>
+          <div class="slider-row"><span>Offense</span><input type="range" min="0" max="100" value="70" data-stat="Offense" /><strong>70</strong></div>
+          <div class="slider-row"><span>Defense</span><input type="range" min="0" max="100" value="70" data-stat="Defense" /><strong>70</strong></div>
+          <div class="slider-row"><span>Pass</span><input type="range" min="0" max="100" value="70" data-stat="Pass" /><strong>70</strong></div>
+          <div class="slider-row"><span>Speed</span><input type="range" min="0" max="100" value="70" data-stat="Speed" /><strong>70</strong></div>
+          <div class="slider-row"><span>Teamwork</span><input type="range" min="0" max="100" value="70" data-stat="Teamwork" /><strong>70</strong></div>
 
           <button class="btn" type="submit">Submit Feedback</button>
         </form>
@@ -668,9 +721,9 @@
   </main>
 
   <script>
-    // 1) Replace these two values after creating your Supabase project.
-    const SUPABASE_URL = "https://elrllcaocybelwivkyqi.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_AeeXZ2T-iqWjYgnUz6_Kjw_g7ZwPqbG";
+    // Replace these with your existing Supabase values.
+    const SUPABASE_URL = "PASTE_YOUR_SUPABASE_PROJECT_URL_HERE";
+    const SUPABASE_ANON_KEY = "PASTE_YOUR_SUPABASE_ANON_KEY_HERE";
 
     const isSupabaseConfigured =
       SUPABASE_URL.startsWith("https://") &&
@@ -681,18 +734,19 @@
       : null;
 
     const defaultStats = {
-      GK: 88,
-      Offense: 62,
-      Defense: 79,
-      Pass: 74,
+      GK: 70,
+      Offense: 70,
+      Defense: 70,
+      Pass: 70,
       Speed: 70,
-      Teamwork: 76
+      Teamwork: 70
     };
 
     let stats = { ...defaultStats };
     let feedbacks = [];
     let relatedAccounts = [];
-    let currentPlayer = "N29dev";
+    let currentPlayer = "";
+    let currentRoblox = null;
 
     const statsList = document.getElementById("statsList");
     const feedbackList = document.getElementById("feedbackList");
@@ -705,6 +759,36 @@
       statusBox.className = "status-box" + (type ? " " + type : "");
     }
 
+    function getRank(score) {
+      if (score >= 90) return "S";
+      if (score >= 80) return "A";
+      if (score >= 70) return "B";
+      return "C";
+    }
+
+    function getOverallScore() {
+      const values = Object.values(stats);
+      if (!values.length) return 0;
+      return Math.round(values.reduce((a, b) => a + b, 0) / values.length);
+    }
+
+    function getBestStat() {
+      const entries = Object.entries(stats);
+      if (!entries.length) return "—";
+      entries.sort((a, b) => b[1] - a[1]);
+      return entries[0][0];
+    }
+
+    function updateRankUI() {
+      const score = getOverallScore();
+      const rank = getRank(score);
+      document.getElementById("rankText").textContent = rank;
+      document.getElementById("scoreText").textContent = score;
+      document.getElementById("bestStatText").textContent = getBestStat();
+      document.getElementById("rankExplain").textContent =
+        `${rank} rank from ${score}/100 average score. S=90+, A=80+, B=70+, C=below 70.`;
+    }
+
     function drawStats() {
       statsList.innerHTML = Object.entries(stats).map(([name, value]) => `
         <div class="bar-row">
@@ -715,7 +799,15 @@
       `).join("");
 
       drawRadar();
-      updateRank();
+      updateRankUI();
+    }
+
+    function setSlidersFromStats() {
+      document.querySelectorAll('input[type="range"]').forEach(slider => {
+        const value = Math.round(stats[slider.dataset.stat] ?? 70);
+        slider.value = value;
+        slider.nextElementSibling.textContent = value;
+      });
     }
 
     function drawFeedbacks() {
@@ -731,15 +823,26 @@
         return;
       }
 
-      feedbackList.innerHTML = feedbacks.map(item => `
-        <article class="feedback-card">
-          <div class="meta">
-            <span>${escapeHTML(item.reviewer_role || "Reviewer")}</span>
-            <span>${new Date(item.created_at || Date.now()).toLocaleDateString()}</span>
-          </div>
-          <p>${escapeHTML(item.feedback_text || "")}</p>
-        </article>
-      `).join("");
+      feedbackList.innerHTML = feedbacks.map(item => {
+        const score = Math.round((
+          Number(item.gk_rating || 0) +
+          Number(item.offense_rating || 0) +
+          Number(item.defense_rating || 0) +
+          Number(item.pass_rating || 0) +
+          Number(item.speed_rating || 0) +
+          Number(item.teamwork_rating || 0)
+        ) / 6);
+
+        return `
+          <article class="feedback-card">
+            <div class="meta">
+              <span>${escapeHTML(item.reviewer_name || "Anonymous")} · ${escapeHTML(item.reviewer_role || "Reviewer")}</span>
+              <span>${getRank(score)} · ${score}/100 · ${new Date(item.created_at || Date.now()).toLocaleDateString()}</span>
+            </div>
+            <p>${escapeHTML(item.feedback_text || "")}</p>
+          </article>
+        `;
+      }).join("");
     }
 
     function drawRelatedAccounts() {
@@ -820,13 +923,6 @@
       ctx.stroke();
     }
 
-    function updateRank() {
-      const values = Object.values(stats);
-      const avg = values.reduce((a, b) => a + b, 0) / values.length;
-      const rank = avg >= 90 ? "S" : avg >= 80 ? "A" : avg >= 70 ? "B" : avg >= 60 ? "C" : "D";
-      document.getElementById("rankText").textContent = rank;
-    }
-
     function escapeHTML(text) {
       return String(text).replace(/[&<>"']/g, char => ({
         "&": "&amp;",
@@ -845,118 +941,175 @@
       return values;
     }
 
-    async function loadPlayer(username) {
-      currentPlayer = username;
-      profileName.textContent = username;
+    function setAvatar(url) {
+      const avatar = document.getElementById("playerAvatar");
+      const fallback = document.getElementById("avatarFallback");
 
-      if (!db) {
-        setStatus("Supabase is not connected yet. Showing local demo only.");
-        feedbacks = [
-          {
-            reviewer_role: "Opponent",
-            feedback_text: "Strong goalkeeper. Predicts normal shots fast and reacts well to headers.",
-            created_at: new Date().toISOString()
-          },
-          {
-            reviewer_role: "Teammate",
-            feedback_text: "Good long passes and communication, but sometimes positions too aggressively.",
-            created_at: new Date().toISOString()
-          }
-        ];
-        relatedAccounts = [
-          { related_username: "noproblem29_alt", status: "unconfirmed" },
-          { related_username: "N29_GK", status: "medium confidence" }
-        ];
-        drawFeedbacks();
-        drawRelatedAccounts();
-        return;
-      }
-
-      setStatus("Loading player data...", "");
-
-      const { data: player, error: playerError } = await db
-        .from("players")
-        .select("*")
-        .eq("roblox_username", username)
-        .maybeSingle();
-
-      if (playerError) {
-        setStatus("Error loading player: " + playerError.message, "error");
-        return;
-      }
-
-      let playerId;
-
-      if (!player) {
-        const { data: newPlayer, error: insertError } = await db
-          .from("players")
-          .insert({ roblox_username: username })
-          .select()
-          .single();
-
-        if (insertError) {
-          setStatus("Error creating player: " + insertError.message, "error");
-          return;
-        }
-
-        playerId = newPlayer.id;
+      if (url) {
+        avatar.src = url;
+        avatar.style.display = "block";
+        fallback.style.display = "none";
       } else {
-        playerId = player.id;
+        avatar.removeAttribute("src");
+        avatar.style.display = "none";
+        fallback.style.display = "block";
       }
-
-      const { data: fb, error: feedbackError } = await db
-        .from("feedback")
-        .select("*")
-        .eq("player_id", playerId)
-        .order("created_at", { ascending: false })
-        .limit(50);
-
-      if (feedbackError) {
-        setStatus("Error loading feedback: " + feedbackError.message, "error");
-        return;
-      }
-
-      const { data: accounts, error: accountsError } = await db
-        .from("related_accounts")
-        .select("*")
-        .eq("player_id", playerId)
-        .order("created_at", { ascending: false })
-        .limit(50);
-
-      if (accountsError) {
-        setStatus("Error loading related accounts: " + accountsError.message, "error");
-        return;
-      }
-
-      feedbacks = fb || [];
-      relatedAccounts = accounts || [];
-
-      calculateAverageStats();
-      drawStats();
-      drawFeedbacks();
-      drawRelatedAccounts();
-
-      setStatus("Connected to Supabase. Data is saved permanently.", "ok");
     }
 
-    async function getOrCreatePlayer(username) {
-      const { data: player, error: playerError } = await db
+    function updateProfileUI(player) {
+      const profileSub = document.getElementById("profileSub");
+      const profileTag = document.getElementById("profileTag");
+      const robloxId = document.getElementById("robloxId");
+      const profileLink = document.getElementById("profileLink");
+
+      if (!player) {
+        profileName.textContent = currentPlayer || "Unknown player";
+        profileSub.textContent = "Roblox avatar not loaded";
+        profileTag.textContent = "Manual username";
+        robloxId.textContent = "Not loaded";
+        profileLink.href = "#";
+        profileLink.textContent = "Roblox profile not found";
+        setAvatar(null);
+        return;
+      }
+
+      profileName.textContent = player.displayName || player.username;
+      profileSub.textContent = `@${player.username}`;
+      profileTag.textContent = "Roblox avatar loaded";
+      robloxId.textContent = String(player.id);
+      profileLink.href = player.profileUrl;
+      profileLink.textContent = `Open ${player.username} on Roblox`;
+      setAvatar(player.avatarUrl);
+    }
+
+    async function resolveRobloxPlayer(username) {
+      try {
+        const response = await fetch(`/api/roblox?username=${encodeURIComponent(username)}`);
+
+        if (!response.ok) {
+          return null;
+        }
+
+        return await response.json();
+      } catch (error) {
+        return null;
+      }
+    }
+
+    async function findPlayerRecord(username, robloxData) {
+      if (!db) return null;
+
+      if (robloxData?.id) {
+        const byId = await db
+          .from("players")
+          .select("*")
+          .eq("roblox_user_id", robloxData.id)
+          .maybeSingle();
+
+        if (byId.error) throw byId.error;
+        if (byId.data) return byId.data;
+      }
+
+      const byUsername = await db
         .from("players")
         .select("*")
-        .eq("roblox_username", username)
+        .ilike("roblox_username", username)
+        .limit(1)
         .maybeSingle();
 
-      if (playerError) throw playerError;
-      if (player) return player;
+      if (byUsername.error) throw byUsername.error;
+      return byUsername.data;
+    }
+
+    async function getOrCreatePlayer() {
+      if (!db) return null;
+
+      const username = currentRoblox?.username || currentPlayer;
+      const existing = await findPlayerRecord(username, currentRoblox);
+      if (existing) return existing;
+
+      const insertPayload = {
+        roblox_username: username,
+        roblox_user_id: currentRoblox?.id || null,
+        display_name: currentRoblox?.displayName || null,
+        avatar_url: currentRoblox?.avatarUrl || null
+      };
 
       const { data: newPlayer, error: insertError } = await db
         .from("players")
-        .insert({ roblox_username: username })
+        .insert(insertPayload)
         .select()
         .single();
 
       if (insertError) throw insertError;
       return newPlayer;
+    }
+
+    async function loadPlayer(username) {
+      currentPlayer = username.trim();
+      currentRoblox = null;
+
+      if (!currentPlayer) return;
+
+      setStatus("Loading Roblox avatar...", "");
+      const robloxData = await resolveRobloxPlayer(currentPlayer);
+
+      if (robloxData) {
+        currentRoblox = robloxData;
+        currentPlayer = robloxData.username;
+        updateProfileUI(robloxData);
+        setStatus("Roblox player loaded. Loading feedback...", "ok");
+      } else {
+        updateProfileUI(null);
+        setStatus("Could not load Roblox avatar. If this is local file mode, deploy to Vercel first.", "error");
+      }
+
+      if (!db) {
+        feedbacks = [];
+        relatedAccounts = [];
+        stats = { ...defaultStats };
+        setSlidersFromStats();
+        drawStats();
+        drawFeedbacks();
+        drawRelatedAccounts();
+        setStatus("Supabase is not connected in this file. Add your URL and anon key.", "error");
+        return;
+      }
+
+      try {
+        const player = await getOrCreatePlayer();
+
+        const { data: fb, error: feedbackError } = await db
+          .from("feedback")
+          .select("*")
+          .eq("player_id", player.id)
+          .order("created_at", { ascending: false })
+          .limit(50);
+
+        if (feedbackError) throw feedbackError;
+
+        const { data: accounts, error: accountsError } = await db
+          .from("related_accounts")
+          .select("*")
+          .eq("player_id", player.id)
+          .order("created_at", { ascending: false })
+          .limit(50);
+
+        if (accountsError) throw accountsError;
+
+        feedbacks = fb || [];
+        relatedAccounts = accounts || [];
+
+        calculateAverageStats();
+        setSlidersFromStats();
+        drawStats();
+        drawFeedbacks();
+        drawRelatedAccounts();
+
+        setStatus("Player loaded. Feedback is saved in Supabase.", "ok");
+      } catch (error) {
+        setStatus("Database error: " + error.message, "error");
+      }
     }
 
     function calculateAverageStats() {
@@ -1006,36 +1159,27 @@
       event.preventDefault();
 
       const text = document.getElementById("feedbackText").value.trim();
+      const reviewerName = document.getElementById("reviewerName").value.trim();
       const role = document.getElementById("reviewerRole").value;
       if (!text) return;
+      if (!currentPlayer) {
+        setStatus("Search a player before submitting feedback.", "error");
+        return;
+      }
 
       const sliderValues = getSliderValues();
 
       if (!db) {
-        feedbacks.unshift({
-          reviewer_role: role,
-          feedback_text: text,
-          gk_rating: sliderValues.GK,
-          offense_rating: sliderValues.Offense,
-          defense_rating: sliderValues.Defense,
-          pass_rating: sliderValues.Pass,
-          speed_rating: sliderValues.Speed,
-          teamwork_rating: sliderValues.Teamwork,
-          created_at: new Date().toISOString()
-        });
-        document.getElementById("feedbackText").value = "";
-        calculateAverageStats();
-        drawStats();
-        drawFeedbacks();
-        setStatus("Demo feedback added locally. Connect Supabase to save permanently.");
+        setStatus("Supabase is not connected. Feedback cannot be saved.", "error");
         return;
       }
 
       try {
-        const player = await getOrCreatePlayer(currentPlayer);
+        const player = await getOrCreatePlayer();
 
         const { error } = await db.from("feedback").insert({
           player_id: player.id,
+          reviewer_name: reviewerName || "Anonymous",
           reviewer_role: role,
           feedback_text: text,
           gk_rating: sliderValues.GK,
@@ -1050,7 +1194,7 @@
 
         document.getElementById("feedbackText").value = "";
         await loadPlayer(currentPlayer);
-        setStatus("Feedback saved to Supabase.", "ok");
+        setStatus("Feedback saved. Rank recalculated.", "ok");
       } catch (error) {
         setStatus("Error saving feedback: " + error.message, "error");
       }
@@ -1062,18 +1206,18 @@
       const account = document.getElementById("relatedAccount").value.trim();
       const reason = document.getElementById("relatedReason").value.trim();
       if (!account) return;
+      if (!currentPlayer) {
+        setStatus("Search a player before adding related accounts.", "error");
+        return;
+      }
 
       if (!db) {
-        relatedAccounts.unshift({ related_username: account, status: "unconfirmed" });
-        drawRelatedAccounts();
-        document.getElementById("relatedAccount").value = "";
-        document.getElementById("relatedReason").value = "";
-        setStatus("Demo related account added locally. Connect Supabase to save permanently.");
+        setStatus("Supabase is not connected. Related account cannot be saved.", "error");
         return;
       }
 
       try {
-        const player = await getOrCreatePlayer(currentPlayer);
+        const player = await getOrCreatePlayer();
 
         const { error } = await db.from("related_accounts").insert({
           player_id: player.id,
@@ -1087,14 +1231,15 @@
         document.getElementById("relatedAccount").value = "";
         document.getElementById("relatedReason").value = "";
         await loadPlayer(currentPlayer);
-        setStatus("Related account suggestion saved to Supabase.", "ok");
+        setStatus("Related account suggestion saved.", "ok");
       } catch (error) {
         setStatus("Error saving related account: " + error.message, "error");
       }
     });
 
     drawStats();
-    loadPlayer(currentPlayer);
+    drawFeedbacks();
+    drawRelatedAccounts();
   </script>
 </body>
 </html>
