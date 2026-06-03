@@ -537,6 +537,177 @@
       border-color: rgba(255, 79, 109, 0.28);
     }
 
+
+    .leaderboard-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .leaderboard-controls select,
+    .leaderboard-controls input {
+      margin-bottom: 0;
+      max-width: 220px;
+    }
+
+    .top-three {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .top-card {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.045);
+      border-radius: 18px;
+      padding: 16px;
+      cursor: pointer;
+      transition: transform .15s ease, border-color .15s ease;
+    }
+
+    .top-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(54,240,255,0.45);
+    }
+
+    .top-card .place {
+      color: var(--gold);
+      font-weight: 900;
+      font-size: 13px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .top-player {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .top-avatar, .lb-avatar {
+      border-radius: 14px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      color: var(--cyan);
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .top-avatar {
+      width: 52px;
+      height: 52px;
+    }
+
+    .lb-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+    }
+
+    .top-avatar img, .lb-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .top-name {
+      font-weight: 900;
+      word-break: break-word;
+    }
+
+    .top-score {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .leaderboard-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      overflow: hidden;
+      border-radius: 18px;
+    }
+
+    .leaderboard-table th,
+    .leaderboard-table td {
+      border-bottom: 1px solid var(--line);
+      padding: 13px 10px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .leaderboard-table th {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .10em;
+      font-weight: 900;
+    }
+
+    .leaderboard-table tr {
+      cursor: pointer;
+      transition: background .15s ease;
+    }
+
+    .leaderboard-table tbody tr:hover {
+      background: rgba(54,240,255,0.07);
+    }
+
+    .leader-player {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 180px;
+    }
+
+    .leader-player strong {
+      display: block;
+      word-break: break-word;
+    }
+
+    .leader-player span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    .rank-badge {
+      display: inline-grid;
+      place-items: center;
+      min-width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      color: #07111d;
+      background: linear-gradient(135deg, var(--gold), #fff0a8);
+      font-weight: 1000;
+      box-shadow: 0 0 24px rgba(255,207,90,0.22);
+    }
+
+    .small-muted {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 880px) {
+      .top-three { grid-template-columns: 1fr; }
+      .leaderboard-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
+
     @media (max-width: 880px) {
       .hero, .grid, .scan-layout, .forms { grid-template-columns: 1fr; }
       .profile-card { position: static; }
@@ -560,6 +731,7 @@
         <span>Roblox Avatar</span>
         <span>Rank System</span>
         <span>Feedback Database</span>
+        <span>Leaderboard</span>
       </nav>
     </header>
 
@@ -714,6 +886,55 @@
       </div>
     </section>
 
+
+    <section class="panel" style="margin-top: 24px;" id="leaderboardPanel">
+      <h2>Leaderboard</h2>
+      <p class="small-muted">
+        Players are ranked by average stats from feedback. You can switch between overall rating and specific stats like GK or Pass.
+      </p>
+
+      <div class="leaderboard-controls">
+        <select id="leaderboardMode">
+          <option value="overall">Overall</option>
+          <option value="gk_rating">GK</option>
+          <option value="offense_rating">Offense</option>
+          <option value="defense_rating">Defense</option>
+          <option value="pass_rating">Pass</option>
+          <option value="speed_rating">Speed</option>
+          <option value="teamwork_rating">Teamwork</option>
+        </select>
+
+        <select id="minimumFeedbacks">
+          <option value="1">Minimum 1 feedback</option>
+          <option value="2">Minimum 2 feedbacks</option>
+          <option value="3">Minimum 3 feedbacks</option>
+          <option value="5">Minimum 5 feedbacks</option>
+        </select>
+
+        <button class="btn ghost-btn" type="button" id="refreshLeaderboard">Refresh</button>
+      </div>
+
+      <div class="top-three" id="topThree"></div>
+
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Player</th>
+            <th>Rank</th>
+            <th>Score</th>
+            <th>Feedbacks</th>
+            <th>Best Stat</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboardBody">
+          <tr>
+            <td colspan="6">Loading leaderboard...</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
     <section class="panel" style="margin-top: 24px;">
       <h2>Recent Feedback</h2>
       <div class="feedback-list" id="feedbackList"></div>
@@ -747,6 +968,7 @@
     let relatedAccounts = [];
     let currentPlayer = "";
     let currentRoblox = null;
+    let leaderboardRows = [];
 
     const statsList = document.getElementById("statsList");
     const feedbackList = document.getElementById("feedbackList");
@@ -1137,6 +1359,202 @@
       stats = averaged;
     }
 
+
+    function average(items, key) {
+      if (!items.length) return 0;
+      return Math.round(items.reduce((sum, item) => sum + Number(item[key] || 0), 0) / items.length);
+    }
+
+    function buildLeaderboardRows(players, allFeedback) {
+      const feedbackByPlayer = new Map();
+
+      allFeedback.forEach(item => {
+        if (!feedbackByPlayer.has(item.player_id)) {
+          feedbackByPlayer.set(item.player_id, []);
+        }
+        feedbackByPlayer.get(item.player_id).push(item);
+      });
+
+      return players.map(player => {
+        const playerFeedback = feedbackByPlayer.get(player.id) || [];
+
+        const statScores = {
+          gk_rating: average(playerFeedback, "gk_rating"),
+          offense_rating: average(playerFeedback, "offense_rating"),
+          defense_rating: average(playerFeedback, "defense_rating"),
+          pass_rating: average(playerFeedback, "pass_rating"),
+          speed_rating: average(playerFeedback, "speed_rating"),
+          teamwork_rating: average(playerFeedback, "teamwork_rating")
+        };
+
+        const overall = Math.round((
+          statScores.gk_rating +
+          statScores.offense_rating +
+          statScores.defense_rating +
+          statScores.pass_rating +
+          statScores.speed_rating +
+          statScores.teamwork_rating
+        ) / 6);
+
+        const bestEntry = Object.entries(statScores)
+          .sort((a, b) => b[1] - a[1])[0];
+
+        const bestStatName = {
+          gk_rating: "GK",
+          offense_rating: "Offense",
+          defense_rating: "Defense",
+          pass_rating: "Pass",
+          speed_rating: "Speed",
+          teamwork_rating: "Teamwork"
+        }[bestEntry?.[0]] || "—";
+
+        return {
+          id: player.id,
+          username: player.roblox_username,
+          displayName: player.display_name || player.roblox_username,
+          avatarUrl: player.avatar_url,
+          robloxUserId: player.roblox_user_id,
+          feedbackCount: playerFeedback.length,
+          overall,
+          rank: getRank(overall),
+          bestStat: bestStatName,
+          ...statScores
+        };
+      });
+    }
+
+    function getLeaderboardScore(row) {
+      const mode = document.getElementById("leaderboardMode").value;
+      return mode === "overall" ? row.overall : row[mode];
+    }
+
+    function renderLeaderboard() {
+      const minFeedbacks = Number(document.getElementById("minimumFeedbacks").value || 1);
+      const sorted = leaderboardRows
+        .filter(row => row.feedbackCount >= minFeedbacks)
+        .sort((a, b) => {
+          const scoreDiff = getLeaderboardScore(b) - getLeaderboardScore(a);
+          if (scoreDiff !== 0) return scoreDiff;
+          return b.feedbackCount - a.feedbackCount;
+        });
+
+      renderTopThree(sorted.slice(0, 3));
+      renderLeaderboardTable(sorted.slice(0, 50));
+    }
+
+    function avatarHTML(row, className) {
+      if (row.avatarUrl) {
+        return `<div class="${className}"><img src="${escapeHTML(row.avatarUrl)}" alt=""></div>`;
+      }
+
+      const letter = escapeHTML((row.displayName || row.username || "?").slice(0, 1).toUpperCase());
+      return `<div class="${className}">${letter}</div>`;
+    }
+
+    function renderTopThree(rows) {
+      const topThree = document.getElementById("topThree");
+
+      if (!rows.length) {
+        topThree.innerHTML = `
+          <div class="top-card">
+            <div class="place">No data</div>
+            <div class="top-score">Submit feedback to create leaderboard.</div>
+          </div>
+        `;
+        return;
+      }
+
+      topThree.innerHTML = rows.map((row, index) => `
+        <article class="top-card" data-username="${escapeHTML(row.username)}">
+          <div class="place">#${index + 1} · ${row.rank} Rank</div>
+          <div class="top-player">
+            ${avatarHTML(row, "top-avatar")}
+            <div>
+              <div class="top-name">${escapeHTML(row.displayName)}</div>
+              <div class="top-score">@${escapeHTML(row.username)} · ${getLeaderboardScore(row)}/100</div>
+            </div>
+          </div>
+        </article>
+      `).join("");
+
+      topThree.querySelectorAll(".top-card").forEach(card => {
+        card.addEventListener("click", () => loadPlayer(card.dataset.username));
+      });
+    }
+
+    function renderLeaderboardTable(rows) {
+      const body = document.getElementById("leaderboardBody");
+
+      if (!rows.length) {
+        body.innerHTML = `
+          <tr>
+            <td colspan="6">No players match this filter yet.</td>
+          </tr>
+        `;
+        return;
+      }
+
+      body.innerHTML = rows.map((row, index) => `
+        <tr data-username="${escapeHTML(row.username)}">
+          <td>${index + 1}</td>
+          <td>
+            <div class="leader-player">
+              ${avatarHTML(row, "lb-avatar")}
+              <div>
+                <strong>${escapeHTML(row.displayName)}</strong>
+                <span>@${escapeHTML(row.username)}</span>
+              </div>
+            </div>
+          </td>
+          <td><span class="rank-badge">${row.rank}</span></td>
+          <td><strong>${getLeaderboardScore(row)}</strong>/100</td>
+          <td>${row.feedbackCount}</td>
+          <td>${escapeHTML(row.bestStat)}</td>
+        </tr>
+      `).join("");
+
+      body.querySelectorAll("tr[data-username]").forEach(row => {
+        row.addEventListener("click", () => loadPlayer(row.dataset.username));
+      });
+    }
+
+    async function loadLeaderboard() {
+      if (!db) {
+        document.getElementById("leaderboardBody").innerHTML = `
+          <tr>
+            <td colspan="6">Connect Supabase first to use leaderboard.</td>
+          </tr>
+        `;
+        document.getElementById("topThree").innerHTML = "";
+        return;
+      }
+
+      try {
+        const { data: players, error: playersError } = await db
+          .from("players")
+          .select("id, roblox_username, display_name, avatar_url, roblox_user_id")
+          .limit(500);
+
+        if (playersError) throw playersError;
+
+        const { data: allFeedback, error: feedbackError } = await db
+          .from("feedback")
+          .select("player_id, gk_rating, offense_rating, defense_rating, pass_rating, speed_rating, teamwork_rating")
+          .limit(5000);
+
+        if (feedbackError) throw feedbackError;
+
+        leaderboardRows = buildLeaderboardRows(players || [], allFeedback || []);
+        renderLeaderboard();
+      } catch (error) {
+        document.getElementById("leaderboardBody").innerHTML = `
+          <tr>
+            <td colspan="6">Leaderboard error: ${escapeHTML(error.message)}</td>
+          </tr>
+        `;
+      }
+    }
+
     document.getElementById("searchForm").addEventListener("submit", async event => {
       event.preventDefault();
       const username = document.getElementById("playerSearch").value.trim();
@@ -1194,6 +1612,7 @@
 
         document.getElementById("feedbackText").value = "";
         await loadPlayer(currentPlayer);
+        await loadLeaderboard();
         setStatus("Feedback saved. Rank recalculated.", "ok");
       } catch (error) {
         setStatus("Error saving feedback: " + error.message, "error");
@@ -1237,9 +1656,14 @@
       }
     });
 
+    document.getElementById("leaderboardMode").addEventListener("change", renderLeaderboard);
+    document.getElementById("minimumFeedbacks").addEventListener("change", renderLeaderboard);
+    document.getElementById("refreshLeaderboard").addEventListener("click", loadLeaderboard);
+
     drawStats();
     drawFeedbacks();
     drawRelatedAccounts();
+    loadLeaderboard();
   </script>
 </body>
 </html>
